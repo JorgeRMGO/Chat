@@ -8,4 +8,8 @@ import App from "@src/App.vue";
 
 const pinia = createPinia();
 
-createApp(App).use(pinia).use(router).use(vClickOutside).mount("#app");
+createApp(App)
+.use(pinia)
+.use(router)
+.use(vClickOutside)
+.mount("#app");

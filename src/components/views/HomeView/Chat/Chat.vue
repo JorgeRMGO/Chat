@@ -2,7 +2,7 @@
 import type { Ref } from "vue";
 // import{ ref } from "vue";
 
-
+import type { IMessage, IContact } from "@src/types";
 
 import { computed, provide, ref } from "vue";
 import useStore from "@src/store/store";
@@ -93,40 +93,64 @@ const handleCloseSelect = () => {
 };
 
 
-let mensajes = ref(
-  []
-);
 
+const jon: IContact = {
+  id: 1,
+  firstName: 'Jonathan',
+  lastName: 'Gutierrez',
+  avatar: 'imagen',
+  email: 'jonathan.gutierrez@grupo-ortiz.com',
+  lastSeen: new Date('2023-09-14'),
+};
+
+
+const mensajes = ref<IMessage[]>([
+  {
+    id: 1,
+    content: "Hola",
+    date: '2023-09-09 04:09:10',
+    sender: jon,
+    //replyTo?: number,
+    //previewData?: IPreviewData,
+    //attachments?: IAttachment[],
+    state: "read",
+  },
+  {
+    id: 2,
+    content: "Hola, ¿cómo estás?",
+    date: '2023-09-09 04:09:10',
+    sender: jon,
+    //replyTo?: number,
+    //previewData?: IPreviewData,
+    //attachments?: IAttachment[],
+    state: "read",
+  },
+  {
+    id: 3,
+    content: "Hola 2",
+    date: '2023-09-09 04:09:10',
+    sender: jon,
+    //replyTo?: number,
+    //previewData?: IPreviewData,
+    //attachments?: IAttachment[],
+    state: "read",
+  },
+]);
+
+
+
+/*
 interface Mensajes {
   id: number;
   content: string;
   sender: "usuario" | "asistente";
 }
+*/
 
-const enviarMensaje = (): Mensajes[] => {
-  const messages: Mensajes[] = [
-    {
-      id: 1,
-      content: "Hola, ¿cómo estás?",
-      sender: "usuario",
-    },
-    {
-      id: 2,
-      content: "¡Hola! Estoy bien, gracias.",
-      sender: "asistente",
-    },
-    {
-      id: 3,
-      content: "¿En qué puedo ayudarte hoy?",
-      sender: "asistente",
-    },
-    // Agrega más mensajes según sea necesario
-  ];
 
-  console.log(messages);
-  
-  // mensajes.value.push(texto); 
-  //mensajes=[...mensajes, texto];
+const sendMessage = ( iMessage: IMessage ) => {
+  console.log(iMessage);
+  mensajes.value.push( iMessage ); 
 };
 </script>
 
@@ -146,7 +170,7 @@ const enviarMensaje = (): Mensajes[] => {
       :mensajes="mensajes"
     />
     <ChatBottom 
-      :send="enviarMensaje"
+      :send-message="sendMessage"
     />
   </div>
 </template>

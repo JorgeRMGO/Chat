@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
-import type { IConversation } from "@src/types";
+import type { IContact, IConversation, IMessage } from "@src/types";
 
 import useStore from "@src/store/store";
 import { ref, inject, onMounted } from "vue";
@@ -26,7 +26,7 @@ import ChatMiddele from "@src/components/views/HomeView/Chat/ChatMiddle/ChatMidd
 import linkifyStr from "linkify-string";
 
 const props = defineProps<{
-  send: (texto: String) => void;
+  sendMessage: (iMessage: IMessage) => void;
 }>();
 
 const store = useStore();
@@ -79,9 +79,22 @@ const handleSetDraft = () => {
   }
 };
 
-const mensaje = () => {
-  props.send();
+const jon: IContact = {
+  id: 1,
+  firstName: 'Jonathan',
+  lastName: 'Gutierrez',
+  avatar: 'imagen',
+  email: 'jonathan.gutierrez@grupo-ortiz.com',
+  lastSeen: new Date('2023-09-14'),
 };
+
+const iMessage: IMessage = {
+  sender: jon,
+  id: 5,
+  content: value.value,
+  date: '2023-09-09 04:09:10',
+  state: 'read'
+}
 
 onMounted(() => {
   value.value = activeConversation.draftMessage;
@@ -131,8 +144,7 @@ onMounted(() => {
       <div class="grow md:mr-5 xs:mr-4 self-end" v-if="!recording">
         <div class="relative">
           <Textarea
-            v-model="value"
-            
+            v-model="value"            
             :value="value"
             class="max-h-[80px] pr-[50px] resize-none scrollbar-hidden"
             auto-resize
@@ -226,7 +238,7 @@ onMounted(() => {
           variant="ghost"
           title="send message"
           aria-label="send message"
-          @click="mensaje()">
+          @click="sendMessage( iMessage )">
           <PaperAirplaneIcon class="w-[17px] h-[17px] text-white" />
         </IconButton>
       </div>

@@ -13,7 +13,7 @@ const props = defineProps<{
   handleSelectMessage: (messageId: number) => void;
   handleDeselectMessage: (messageId: number) => void;
   selectedMessages: number[];
-  mensajes: string[];
+  mensajes: IMessage[];
 }>();
 
 const store = useStore();
@@ -80,21 +80,20 @@ onMounted(() => {
       />
     </div>
 
+    <p> {{ JSON.stringify(mensajes) }} </p>
 
-    <div v-for="(mensaje, index) in mensajes" :key="index">
+    <div v-for="(message, index) in mensajes" :key="index">
       <Message
-        :message="mensaje"
-        :self="isSelf(mensaje)"
+        :message="message"
+        :self="isSelf(message)"
         :follow-up="isFollowUp(index, index - 1)"
         :divider="renderDivider(index, index - 1)"
-        :selected="props.selectedMessages.includes(mensaje.id)"
+        :selected="props.selectedMessages.includes(message.id)"
         :handle-select-message="handleSelectMessage"
         :handle-deselect-message="handleDeselectMessage"
-      
+        
       />
       <TimelineDivider v-if="renderDivider(index, index - 1)" />
-      <p>{{mensaje}}</p>
-
   </div>
   </div>
 </template>
